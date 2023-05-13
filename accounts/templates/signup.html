@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<style>
+    body{
+    margin: 0;
+    padding: 0;
+    background-color:#ffffff;
+    font-family: 'Arial';
+}
+
+.login{
+        width: 382px;
+        overflow: hidden;
+        margin: auto;
+        margin: 20 0 0 450px;
+        padding: 80px;
+        background: #808080;
+        border-radius: 15px ;
+}
+h2{
+    text-align: center;
+    color: #277582;
+    padding: 20px;
+}
+label{
+    color: #08ffd1;
+    font-size: 17px;
+}
+
+input{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+#log{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: blue;
+
+
+}
+span{
+    color: black;
+    font-size: 17px;
+}
+a{
+    float: right;
+    background-color: grey;
+}
+
+
+
+
+
+</style>
+<body>
+<h2>Sign Up Page</h2><br>
+
+<div class="login">
+    <form id="login" method="post" action="/signup">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            <strong>Message:</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% csrf_token %}
+        <label><b>Full Name</b></label><br>
+        <input type="text" name="name" id="name" placeholder="Enter Full Name" required>
+        <br><br>
+        <label><b>Mobile</b></label><br>
+        <input type="number" name="phone_no" id="phone_no" pattern="[0-9]*" placeholder="Enter Mobile Number" required>
+        <br><br>
+        <label><b>Gender</b></label><br>
+        <select class="select2" name="gender" id="gender" style="width:310px">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <br><br>
+        <label><b>E-mail</b></label><br>
+        <input type="text" name="email" id="email" placeholder="Enter E-mail" required>
+        <br><br>
+        <label><b>Country</b></label><br>
+        <input type="text" name="country" id="country" placeholder="Enter Country">
+        <br><br>
+        <label><b>Password</b></label>
+        <input type="password" name="pass" id="pass" placeholder="Enter password" required>
+        <br><br>
+        <label><b>Conform Password</b></label>
+        <input type="password" name="pass1" id="pass1" placeholder="conform password" required>
+        <br><span id="password-error" style="color: red;"></span><br>
+        <label><b>Interest</b></label><br>
+        <select class="select2" name="interest" id="interest" style="width:310px" multiple="multiple" placeholder="Select Interest">
+            {% for item in interest %}
+            <option value="{{item.id}}">{{item.name}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <input type="submit" name="log" id="log" value="Create Account">
+        <br><br>
+        <a href="/">Already a user ! Login Here</a>
+    </form>
+</div>
+
+<script>
+    const password1 = document.getElementById('pass');
+    const password2 = document.getElementById('pass1');
+    const passwordError = document.getElementById('password-error');
+
+    function checkPasswords() {
+      if (password1.value !== password2.value) {
+        passwordError.textContent = 'Passwords do not match';
+      } else {
+        passwordError.textContent = '';
+      }
+    }
+
+    password2.addEventListener('input', checkPasswords);
+
+</script>
+<script>
+  $(document).ready(function() {
+  console.log('ready');
+    $('.select2').select2();
+  });
+</script>
+</body>
+
+</html>
